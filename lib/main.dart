@@ -11,6 +11,11 @@ class ExpensesApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: MyHomePage(),
+      theme: ThemeData(
+        primarySwatch: Colors.purple,
+        accentColor: Colors.amber,
+        fontFamily: 'IndieFlower',
+      ),
     );
   }
 }
@@ -21,39 +26,44 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final _transactions = [
-    Transaction(
-      id: 't1',
-      title: 'novo tênis de corrida',
-      value: 310.76,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't2',
-      title: 'conta de luz',
-      value: 211.30,
-      date: DateTime.now(),
-    )
+  final List<Transaction> _transactions = [
+    // Transaction(
+    //   id: 't1',
+    //   title: 'novo tênis de corrida',
+    //   value: 310.76,
+    //   date: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: 't2',
+    //   title: 'conta de luz',
+    //   value: 211.30,
+    //   date: DateTime.now(),
+    // )
   ];
 
   _addTransaction(String title, double value) {
     final newTransaction = Transaction(
-        id: Random().nextDouble().toString(),
-        title: title,
-        value: value,
-        date: DateTime.now());
+      id: Random().nextDouble().toString(),
+      title: title,
+      value: value,
+      date: DateTime.now(),
+    );
+
+
+
+    Navigator.of(context).pop();
+  }
+
     setState(() {
       _transactions.add(newTransaction);
     });
-  }
-
+    
   _openTransactionFormModal(BuildContext context) {
     showModalBottomSheet(
-      context: context,
-      builder: (_) {
-        return TransactionForm(null);
-      },
-    );
+        context: context,
+        builder: (context) {
+          return TransactionForm(_addTransaction);
+        });
   }
 
   @override
